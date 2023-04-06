@@ -1,8 +1,15 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+ import { getDatabase, ref, set, onValue} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
 
 let showingButtons = document.querySelectorAll('.box');
 let inbetweenScreen = document.querySelector('.inbetweenScreen');
 let nextButton = document.querySelector('.next');
 let wordScreen = document.querySelector('.wordScreen');
+let leaderboard = document.querySelector('.theLeaderBoard');
+let words = document.querySelector('.words');
+let list = document.querySelector('.list');
+let enterName = document.querySelector('.enterName');
 
 let dead = true;
 let done = false;
@@ -12,11 +19,86 @@ let level = 5;
 let number = 1;
 let i =0;
  let randomNumber;
+ let   inputName ;
 
 
  let correctOrder = 0;
 
  let randomPlaces =[];
+
+
+  const db = getDatabase();
+  let playerId;
+ 
+firebase.auth().onAuthStateChanged((user) => {
+    console.log(user.uid)
+  
+      //You're logged in!
+      playerId = user.uid;
+      console.log(playerId);
+  })
+
+
+  firebase.auth().signInAnonymously().catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // ...
+    console.log(errorCode, errorMessage);
+  });
+
+  function writeUserData(userId,name, score ){
+
+    const reference = ref(db, 'users/' + userId)
+    
+    set(reference, {
+    name : name,
+    score: score
+    });
+    
+   
+    const points = ref(db, 'users/' + userId + '/score')
+    
+    console.log(points)
+    }
+    
+    let players = {};
+    const users = ref(db, 'users/');
+    let redo = false;
+    onValue(users, (snapshot) => {
+    
+      players = snapshot.val() || {};
+    ;});
+
+
+    document.querySelector('#player-name-button').addEventListener('click', ()=>{
+        enterName.style.display = "none";
+         inputName = document.getElementById('player-name').value;
+        
+     
+        
+        const result = Object.entries(players)
+          .sort((a, b) => b[1].score - a[1].score)
+          .map((p) => `${p[1].name} | ${p[1].score}`);
+        
+          console.log(result);
+          if (redo){
+           
+            leaderboard.innerHTML = "";
+            }
+        
+          for (let i = 0; i < result.length; i++) {
+            let stick = document.createElement("div");
+            stick.classList.add("leaders");
+            stick.innerHTML = result[i];
+            leaderboard.append(stick);
+           redo = true;
+           
+          } 
+        });
+
+
+
+
  
 const placeCharacter = () => {
  if(randomPlaces.length < level){
@@ -116,7 +198,40 @@ showingButtons.forEach(function(button) {
         if(randomPlaces.includes(buttonId) && button.classList.contains("button")){
 
 if(button.id != randomPlaces[correctOrder]){
+    const characterState = players[playerId];
+   console.log( characterState.score);
 
+
+   
+   if(level > characterState.score){
+
+    onValue(users, (snapshot) => {
+    
+        players = snapshot.val() || {};
+      });
+  
+       writeUserData(playerId,inputName,level);
+
+       const result = Object.entries(players)
+       .sort((a, b) => b[1].score - a[1].score)
+       .map((p) => `${p[1].name} | ${p[1].score}`);
+     
+       console.log(result);
+       if (redo){
+        
+         leaderboard.innerHTML = "";
+         }
+     
+       for (let i = 0; i < result.length; i++) {
+         let stick = document.createElement("div");
+         stick.classList.add("leaders");
+         stick.innerHTML = result[i];
+         leaderboard.append(stick);
+        redo = true;
+        
+       } 
+       
+    }
 console.log("wrong");
 inbetweenScreen.style.display = "flex";
 wordScreen.innerHTML = "you lost :( you got to level " + level;
@@ -193,3 +308,7 @@ lost = false;
 
     inbetweenScreen.style.display = "none";
  })
+
+
+
+ 

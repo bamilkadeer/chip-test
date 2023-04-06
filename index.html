@@ -14,6 +14,15 @@
 
 
 
+    <div class="leaderBoard">
+    
+        <p class="leader">Leader Board</p>
+        <p>doodle bob | 420</p>
+      
+    <div class="theLeaderBoard"></div>
+    </div>
+    
+    
 
 
 
@@ -88,16 +97,47 @@
     <button class = "next">next level</button>
 </div>
 
-<div class="leaderBoard">
-    
-    <p class="leader">Leader Board</p>
-    <p>doodle bob 15</p>
 
-
+<div class="enterName">
+    <ul>
+        
+        <label for="player-name">Your Username</label><br>
+        <input id="player-name" maxlength="12" type="text" />
+        <button id="player-name-button">submit</button>
+    </ul>
 </div>
 
 
 
+
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    import { getDatabase, ref } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBAgmgHDmeGCQTN8Q4dPI30Bdill9ciVV4",
+      authDomain: "test-70054.firebaseapp.com",
+      projectId: "test-70054",
+      storageBucket: "test-70054.appspot.com",
+      messagingSenderId: "704850705795",
+      appId: "1:704850705795:web:3661d3ae07626a92fe4ab6"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    firebase.initializeApp(firebaseConfig);
+  </script>
 
 
 
@@ -106,41 +146,6 @@
 
 
 
-<script type="module">
-
-    // Import the functions you need from the SDKs you need
-  
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-app.js";
-  
-    // TODO: Add SDKs for Firebase products that you want to use
-  
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-  
-    // Your web app's Firebase configuration
-  
-    const firebaseConfig = {
-  
-      apiKey: "AIzaSyDN6Dlj32xgI4w8W6oK-Ost5uGyRfPx3M4",
-  
-      authDomain: "ape-test-3499a.firebaseapp.com",
-  
-      projectId: "ape-test-3499a",
-  
-      storageBucket: "ape-test-3499a.appspot.com",
-  
-      messagingSenderId: "344073929506",
-  
-      appId: "1:344073929506:web:91ef6a4edb05510d515b7b"
-  
-    };
-  
-  
-    // Initialize Firebase
-  
-    const app = initializeApp(firebaseConfig);
-  
-  </script>
 
 
 </body>

@@ -187,10 +187,72 @@ align-items:center;
 flex-direction: column;
         
 font-size:1.3vw ;
+transition: all 10ms;
 }
 
 .leader{
 
 
     font-size: 2vw;
+}
+
+
+.enterName{
+    position: absolute;
+    display:flex;
+    top:50%;
+    left:40%;
+    transform: translate(-50%,-50%);
+    width:64vw;
+    height:40vw;
+    
+    padding:20px;
+    border-radius: 10px;
+    background-color: #cd9e98;
+    opacity: 1;
+    
+    color:white;
+    
+    justify-content: center;
+    align-items:center;
+  
+    }
+
+
+    #player-name-button{
+
+        position: absolute;
+        top:80%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        background-color: white;
+        width:9vw;
+        height:4vw;
+        border: none;
+        transition-timing-function: ease;
+         transition-duration: 90ms;
+         font-size: 2vw;
+         border-radius: 10px;
+
+    }
+
+    #player-name-button:hover{
+
+        background-color: #151316;
+        color: #d9cee6;
+        
+        }
+
+    label{
+        font-size: 3vw;
+        
+        
+        
+        }
+#player-name{
+
+width:20vw;
+height:5vw;
+font-size: 3vw;
+
 }
