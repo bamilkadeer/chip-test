@@ -74,7 +74,7 @@ firebase.auth().onAuthStateChanged((user) => {
         enterName.style.display = "none";
          inputName = document.getElementById('player-name').value;
         
-     
+         writeUserData(playerId,inputName,level);
         
         const result = Object.entries(players)
           .sort((a, b) => b[1].score - a[1].score)
