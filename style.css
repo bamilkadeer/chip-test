@@ -256,3 +256,12 @@ height:5vw;
 font-size: 3vw;
 
 }
+
+.name{
+
+    position:absolute;
+    transform:translate(-50%,-0%);
+   font-size: 2vw;
+   color:white;
+   left: 50%;
+}

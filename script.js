@@ -10,6 +10,7 @@ let leaderboard = document.querySelector('.theLeaderBoard');
 let words = document.querySelector('.words');
 let list = document.querySelector('.list');
 let enterName = document.querySelector('.enterName');
+let name = document.querySelector('.name');
 
 let dead = true;
 let done = false;
@@ -36,6 +37,7 @@ firebase.auth().onAuthStateChanged((user) => {
       //You're logged in!
       playerId = user.uid;
       console.log(playerId);
+      
   })
 
 
@@ -55,10 +57,6 @@ firebase.auth().onAuthStateChanged((user) => {
     score: score
     });
     
-   
-    const points = ref(db, 'users/' + userId + '/score')
-    
-    console.log(points)
     }
     
     let players = {};
@@ -73,8 +71,8 @@ firebase.auth().onAuthStateChanged((user) => {
     document.querySelector('#player-name-button').addEventListener('click', ()=>{
         enterName.style.display = "none";
          inputName = document.getElementById('player-name').value;
-        
-         writeUserData(playerId,inputName,level);
+        name.innerHTML = "Username: " + inputName;
+        //  writeUserData(playerId,inputName,level);
         
         const result = Object.entries(players)
           .sort((a, b) => b[1].score - a[1].score)
@@ -90,7 +88,15 @@ firebase.auth().onAuthStateChanged((user) => {
             let stick = document.createElement("div");
             stick.classList.add("leaders");
             stick.innerHTML = result[i];
-            leaderboard.append(stick);
+            const characterState = players[playerId];
+            if (typeof characterState !== 'undefined'){
+
+                if(characterState.name + " | " + characterState.score == result[i] || inputName+ " | " + level == result[i]){
+                    stick.style.color = "orange";
+                    console.log("orange");
+                }
+            }
+                leaderboard.append(stick);
            redo = true;
            
           } 
@@ -199,23 +205,25 @@ showingButtons.forEach(function(button) {
 
 if(button.id != randomPlaces[correctOrder]){
     const characterState = players[playerId];
-   console.log( characterState.score);
-
-
-   
-   if(level > characterState.score){
-
-    onValue(users, (snapshot) => {
-    
-        players = snapshot.val() || {};
-      });
   
-       writeUserData(playerId,inputName,level);
 
-       const result = Object.entries(players)
-       .sort((a, b) => b[1].score - a[1].score)
-       .map((p) => `${p[1].name} | ${p[1].score}`);
-     
+    if (typeof characterState !== 'undefined'){
+        
+    
+        
+        if(level > characterState.score){
+            
+            onValue(users, (snapshot) => {
+                
+                players = snapshot.val() || {};
+            });
+            
+            writeUserData(playerId,inputName,level);
+            
+            const result = Object.entries(players)
+            .sort((a, b) => b[1].score - a[1].score)
+            .map((p) => `${p[1].name} | ${p[1].score}`);
+            
        console.log(result);
        if (redo){
         
@@ -232,6 +240,9 @@ if(button.id != randomPlaces[correctOrder]){
        } 
        
     }
+}
+
+else{ writeUserData(playerId,inputName,level);}
 console.log("wrong");
 inbetweenScreen.style.display = "flex";
 wordScreen.innerHTML = "you lost :( you got to level " + level;
